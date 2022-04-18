@@ -1,5 +1,5 @@
 # InfernumGraphicalUserInterfaceSystem-PublicTest
-Publiczne testy projektu GUI dla c++/SFML
+Publiczne testy projektu GUI dla c++/SFML<br/>
 Discord: https://discord.gg/qNuvdCDqz7
 
 Jest to projekt tworzony aktualnie tylko dla własnego użytku, zawiera wiele nie dokończonych funkcji, wiadomo wczesna wersja
