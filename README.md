@@ -2,6 +2,8 @@
 Publiczne testy projektu GUI dla c++/SFML<br/>
 Discord: https://discord.gg/qNuvdCDqz7
 
+Projekt będzie rozwijany powoli(ze zwględu na mało czasu wolnego), chyba że będzie cieszył się zainteresowaniem
+
 Jest to projekt tworzony aktualnie tylko dla własnego użytku, zawiera wiele nie dokończonych funkcji, wiadomo wczesna wersja
 
 Jeśli ktoś ma jakieś pomysły, prosze dodawać na Issues
