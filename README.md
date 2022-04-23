@@ -41,7 +41,7 @@ Example code:
 	Unhovered.loadFromFile("Audio/522.wav");
 	Clicked.loadFromFile("Audio/122.wav");
 	
-	IGUIS::IGUISElement::SetSounds(&Hovered, &Unhovered, &Clicked);// tutaj podałem IGUISElement, ale można dać jakąkolwiek klasę
+	IGUIS::IGUISElement::SetSounds(&Hovered, &Unhovered, &Clicked);
 	IGUIS::IGUISElement::SetVolume(10);
 
 ///
