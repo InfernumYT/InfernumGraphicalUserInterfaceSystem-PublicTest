@@ -13,3 +13,47 @@ Nie jestem profesjonalnym programistą, jest to dla mnie hobby w którym chce zr
 Tworze ten projekt, dlatego że chce zobaczyć jak wygląda tworzenie tak podstawowych elementów, z czego napewno wezme doświadczenie do tworzenia innych projektów
 
 :) mam zaczęty projekt gry, narazie go nie upubliczniam
+
+Example code:
+
+	#include <iostream><br/>
+	#include "SFML/Audio.hpp"
+	#include "InfernumGUISystem/Button.h"
+
+/// main<br/>
+
+	// inicjalizacja
+	IGUIS::IGUISElement::SetWindow(&Window);<br/>
+		
+	sf::Texture ButtonTexture;<br/>
+	ButtonTexture.loadFromFile("Button.png");<br/>
+	IGUIS::Button Button(&ButtonTexture, IGUIS::Origin::Middle, 0.0f, 0.0f, 1 / 16.0f, 1 / 9.0f, true);<br/>
+		
+///
+
+/// audio initialization
+
+	sf::SoundBuffer Hovered;
+	sf::SoundBuffer Unhovered;
+	sf::SoundBuffer Clicked;
+
+	Hovered.loadFromFile("Audio/52.wav");
+	Unhovered.loadFromFile("Audio/522.wav");
+	Clicked.loadFromFile("Audio/122.wav");
+	
+	IGUIS::IGUISElement::SetSounds(&Hovered, &Unhovered, &Clicked);// tutaj podałem IGUISElement, ale można dać jakąkolwiek klasę
+	IGUIS::IGUISElement::SetVolume(10);
+
+///
+
+/// main program loop<br/>
+
+	Button.Update();
+	if (Button.State == 4)
+	{
+		std::cout << "Button clicked" << std::endl;
+	}
+	
+	Button.Draw();
+
+///
