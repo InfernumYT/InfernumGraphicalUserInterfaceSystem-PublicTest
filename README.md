@@ -16,18 +16,18 @@ Tworze ten projekt, dlatego że chce zobaczyć jak wygląda tworzenie tak podsta
 
 Example code:
 
-	#include <iostream><br/>
+	#include <iostream>
 	#include "SFML/Audio.hpp"
 	#include "InfernumGUISystem/Button.h"
 
 /// main<br/>
 
 	// inicjalizacja
-	IGUIS::IGUISElement::SetWindow(&Window);<br/>
+	IGUIS::IGUISElement::SetWindow(&Window);
 		
-	sf::Texture ButtonTexture;<br/>
-	ButtonTexture.loadFromFile("Button.png");<br/>
-	IGUIS::Button Button(&ButtonTexture, IGUIS::Origin::Middle, 0.0f, 0.0f, 1 / 16.0f, 1 / 9.0f, true);<br/>
+	sf::Texture ButtonTexture;
+	ButtonTexture.loadFromFile("Button.png");
+	IGUIS::Button Button(&ButtonTexture, IGUIS::Origin::Middle, 0.0f, 0.0f, 1 / 16.0f, 1 / 9.0f, true);
 		
 ///
 
