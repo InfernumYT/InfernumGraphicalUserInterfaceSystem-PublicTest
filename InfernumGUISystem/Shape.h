@@ -10,15 +10,19 @@ namespace IGUIS
 		sf::RectangleShape ShapeVar;
 	public:
 		Shape();
+
 		/// <param name="SizeX"> set (1 / 16.0f * x) to make square :) </param>
 		/// <param name="SizeY"> set (1 / 9.0f * x) to make square :) </param>
 		Shape(const sf::Texture* Texture, sf::Color Color, IGUIS::Origin OriginOfObject, float PositionX, float PositionY, float SizeX, float SizeY, bool IsPositionRelativeToScreen);
+
 		/// <param name="SizeX"> set (1 / 16.0f * x) to make square :) </param>
 		/// <param name="SizeY"> set (1 / 9.0f * x) to make square :) </param>
 		Shape(const sf::Texture* Texture, IGUIS::Origin OriginOfObject, float PositionX, float PositionY, float SizeX, float SizeY, bool IsPositionRelativeToScreen);
+
 		/// <param name="SizeX"> set (1 / 16.0f * x) to make square :) </param>
 		/// <param name="SizeY"> set (1 / 9.0f * x) to make square :) </param>
 		Shape(sf::Color Color, IGUIS::Origin OriginOfObject, float PositionX, float PositionY, float SizeX, float SizeY, bool IsPositionRelativeToScreen);
+
 		void SetFillColor(sf::Color Color);
 		const sf::Color GetFillColor();
 		void SetOutlineColor(sf::Color OutlineColor);

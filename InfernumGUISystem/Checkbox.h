@@ -26,7 +26,7 @@ namespace IGUIS
 		/// <para>6 - unclicked once</para>
 		/// <para>7 - unactive</para>
 		/// </summary>
-		uint8_t State = 1;
+		uint8_t State = 7;
 
 		const sf::Texture* ShapeTextureIfTurnedOff;
 

@@ -5,13 +5,13 @@ IGUIS::DragAndDropConnection::DragAndDropConnection()
     
 }
 
-IGUIS::DragAndDropConnection::DragAndDropConnection(IGUIS::Origin Origin, sf::Color ColourUnhovered, sf::Color ColourHovered, sf::Color ColourClicked, sf::Color ColourDeactivated, char MaxOutGoingLineCount, float PositionX, float PositionY, float SizeX, float SizeY, bool IsPositionRelativeToScreen)
+IGUIS::DragAndDropConnection::DragAndDropConnection(sf::Color ColourUnhovered, sf::Color ColourHovered, sf::Color ColourClicked, sf::Color ColourDeactivated, IGUIS::Origin Origin, char MaxOutGoingLineCount, float PositionX, float PositionY, float SizeX, float SizeY, bool IsPositionRelativeToScreen)
 {
     IGUIS::DragAndDropConnection::Origin = Origin;
     IGUIS::DragAndDropConnection::ShapeColourUnhovered = ColourUnhovered;
-    IGUIS::DragAndDropConnection::ShapeColourUnhovered = ColourHovered;
-    IGUIS::DragAndDropConnection::ShapeColourUnhovered = ColourClicked;
-    IGUIS::DragAndDropConnection::ShapeColourUnhovered = ColourDeactivated;
+    IGUIS::DragAndDropConnection::ShapeColourHovered = ColourHovered;
+    IGUIS::DragAndDropConnection::ShapeColourClicked = ColourClicked;
+    IGUIS::DragAndDropConnection::ShapeColourDeactivated = ColourDeactivated;
     IGUIS::DragAndDropConnection::MaxOutGoingLineCount = MaxOutGoingLineCount;
     IGUIS::DragAndDropConnection::Position = sf::Vector2f(PositionX, PositionY);
     IGUIS::DragAndDropConnection::Size = sf::Vector2f(SizeX, SizeY);
@@ -107,6 +107,134 @@ void IGUIS::DragAndDropConnection::Update(sf::Event* Event)
     }
     IGUIS::DragAndDropConnection::Shape.setSize(sf::Vector2f(IGUIS::IGUISElement::Size.x * IGUIS::IGUISElement::Window->getView().getSize().x, IGUIS::IGUISElement::Size.y * IGUIS::IGUISElement::Window->getView().getSize().y));
     IGUIS::DragAndDropConnection::Shape.setOrigin(IGUIS::DragAndDropConnection::Shape.getSize().x / 2, IGUIS::DragAndDropConnection::Shape.getSize().y / 2);
+    
+    if (IGUIS::DragAndDropConnection::IsActive)
+    {
+        IGUIS::DragAndDropConnection::ShapeRect = static_cast<sf::FloatRect>(IGUIS::DragAndDropConnection::Shape.getGlobalBounds());
+
+        IGUIS::DragAndDropConnection::MouseOnButton = IGUIS::DragAndDropConnection::ShapeRect.contains(IGUIS::IGUISElement::Window->mapPixelToCoords(sf::Mouse::getPosition(*IGUIS::IGUISElement::Window)));
+
+        #pragma region get state
+        if (IGUIS::DragAndDropConnection::State == 6) // if state is "unclicked once"
+        {
+            if (IGUIS::DragAndDropConnection::MouseOnButton) // if mouse is on button
+            {
+                IGUIS::DragAndDropConnection::State = 3; //set state to hovered
+            }
+            else // if mouse is on button
+            {
+                IGUIS::DragAndDropConnection::State = 2; //set state to unhovered once
+            }
+        }
+
+        if (Event->type == sf::Event::MouseMoved) // if mouse moved
+        {
+            if (IGUIS::DragAndDropConnection::MouseOnButton) // if mouse is on button
+            {
+                if (IGUIS::DragAndDropConnection::State != 4 && IGUIS::DragAndDropConnection::State != 5) // if state isn't "clicked once" and "clicked"
+                {
+                    if (IGUIS::DragAndDropConnection::State != 2 && IGUIS::DragAndDropConnection::State != 3) // if state isn't "hovered once" and "hovered"
+                    {
+                        IGUIS::DragAndDropConnection::State = 2; // set state to hovered once
+                    }
+                    else // if state isn't "hovered once" and "hovered"
+                    {
+                        IGUIS::DragAndDropConnection::State = 3; // set state to hovered
+                    }
+                }
+            }
+            else // if mouse is on button
+            {
+                if (IGUIS::DragAndDropConnection::State != 0 && IGUIS::DragAndDropConnection::State != 1) // if state isn't "unhovered once" and "unhovered"
+                {
+                    IGUIS::DragAndDropConnection::State = 0; // set state to unhovered once
+                }
+                else // if state isn't "unhovered once" and "unhovered"
+                {
+                    IGUIS::DragAndDropConnection::State = 1; // set state to unhovered
+                }
+            }
+        }
+
+        if (Event->type == sf::Event::MouseButtonPressed && Event->mouseButton.button == sf::Mouse::Left) // if mouse button is pressed and left mouse button
+        {
+            if (IGUIS::DragAndDropConnection::MouseOnButton) // if mouse is on button
+            {
+                if (IGUIS::DragAndDropConnection::State != 4 && IGUIS::DragAndDropConnection::State != 5) // if state isn't "clicked once" and "clicked"
+                {
+                    IGUIS::DragAndDropConnection::State = 4; // set state to clicked once
+                }
+                else // if state isn't "clicked once" and "clicked"
+                {
+                    IGUIS::DragAndDropConnection::State = 5; // set state to clicked
+                }
+            }
+            else // if mouse is on button
+            {
+                if (IGUIS::DragAndDropConnection::State != 0 && IGUIS::DragAndDropConnection::State != 1) // if state isn't "unhovered once" and "unhovered"
+                {
+                    IGUIS::DragAndDropConnection::State = 0; // set state to unhovered once
+                }
+                else // if state isn't "unhovered once" and "unhovered"
+                {
+                    IGUIS::DragAndDropConnection::State = 1; // set state to unhovered
+                }
+            }
+        }
+
+        if (Event->type == sf::Event::MouseButtonReleased && Event->mouseButton.button == sf::Mouse::Left) // if mouse button is released and left mouse button
+        {
+            if (IGUIS::DragAndDropConnection::State == 4 || IGUIS::DragAndDropConnection::State == 5) // if state is "clicked once" or "clicked"
+            {
+                IGUIS::DragAndDropConnection::State = 6; // set state to unclicked once
+            }
+            else if (IGUIS::DragAndDropConnection::MouseOnButton) // if state isn't "clicked once" or "clicked" and mouse is on button
+            {
+                IGUIS::DragAndDropConnection::State = 3; // set state to hovered
+            }
+        }
+        #pragma endregion
+
+
+        switch (IGUIS::DragAndDropConnection::State)
+        {
+        case 0:// state == unhovered once
+            IGUIS::DragAndDropConnection::Shape.setFillColor(IGUIS::DragAndDropConnection::ShapeColourUnhovered);
+            IGUIS::IGUISElement::SpeakerUnhovered.play();
+            break;
+
+        case 1:// state == unhovered
+            IGUIS::DragAndDropConnection::Shape.setFillColor(IGUIS::DragAndDropConnection::ShapeColourUnhovered);
+            break;
+
+        case 2:// state == hovered once
+            IGUIS::DragAndDropConnection::Shape.setFillColor(IGUIS::DragAndDropConnection::ShapeColourHovered);
+            IGUIS::IGUISElement::SpeakerHovered.play();
+            break;
+
+        case 3:// state == hovered
+            IGUIS::DragAndDropConnection::Shape.setFillColor(IGUIS::DragAndDropConnection::ShapeColourHovered);
+            break;
+
+        case 4:// state == clicked once
+            IGUIS::DragAndDropConnection::Shape.setFillColor(IGUIS::DragAndDropConnection::ShapeColourClicked);
+            IGUIS::IGUISElement::SpeakerClicked.play();
+            break;
+
+        case 5:// state == clicked
+            IGUIS::DragAndDropConnection::Shape.setFillColor(IGUIS::DragAndDropConnection::ShapeColourClicked);
+            break;
+
+        case 6:// state == unclicked once
+            IGUIS::DragAndDropConnection::Shape.setFillColor(IGUIS::DragAndDropConnection::ShapeColourHovered);
+            break;
+        }
+    }
+    else
+    {
+        IGUIS::DragAndDropConnection::State = 7;
+        IGUIS::DragAndDropConnection::Shape.setFillColor(IGUIS::DragAndDropConnection::ShapeColourDeactivated);
+    }
 
     for (char i = 0; i < IGUIS::DragAndDropConnection::Line.size(); i++)
     {

@@ -9,7 +9,7 @@ namespace IGUIS
 	/// <summary>
 	/// It's a point, that can be connected to other point/s using Line
 	/// </summary>
-	class DragAndDropConnection : public IGUISElement//TODO: poprawiæ summary
+	class DragAndDropConnection : public IGUISElement
 	{
 		sf::FloatRect ShapeRect;
 		bool MouseOnButton = false;
@@ -19,14 +19,38 @@ namespace IGUIS
 		char MaxOutGoingLineCount = 1;
 		bool Dragging = false;
 	public:
+		/// <summary>
+		/// Pushback other DragAndDropConnection to allow connection betwen them
+		/// </summary>
 		std::vector<DragAndDropConnection*> CanBeConnectedTo;
+
+		/// <summary>
+		/// Check to which DragAndDropConnection object is connected
+		/// </summary>
 		std::vector<DragAndDropConnection*> ConnectedTo;
-		int ID = 0;
+
+		/// <summary>
+		/// ID of object, used to identify which object is which, you must set it manually
+		/// </summary>
+		unsigned short ID = 0;
+
+		/// <summary>
+		/// Possible output:
+		/// <para>0 - unhovered once</para>
+		/// <para>1 - unhovered</para>
+		/// <para>2 - hovered once</para>
+		/// <para>3 - hovered</para>
+		/// <para>4 - clicked once</para>
+		/// <para>5 - clicked</para>
+		/// <para>6 - unclicked once</para>
+		/// <para>7 - unactive</para>
+		/// </summary>
+		uint8_t State = 7;
 
 		/// <summary>
 		/// Default 255, 255, 255
 		/// </summary>
-		sf::Color ShapeColourUnhovered = sf::Color(255, 255, 255);// TODO: zrobiæ state jak w przycisku
+		sf::Color ShapeColourUnhovered = sf::Color(255, 255, 255);
 
 		/// <summary>
 		/// Default 235, 235, 235
@@ -43,10 +67,15 @@ namespace IGUIS
 		/// </summary>
 		sf::Color ShapeColourDeactivated = sf::Color(195, 195, 195);
 
-		DragAndDropConnection();
+		/// <summary>
+		/// Can be clicked?
+		/// </summary>
+		bool IsActive = true;
 
+		DragAndDropConnection();
 		/// <param name="MaxOutGoingLineCount"> 0 - 255 </param>
-		DragAndDropConnection(IGUIS::Origin Origin, sf::Color ColourUnhovered, sf::Color ColourHovered, sf::Color ColourClicked, sf::Color ColourDeactivated, char MaxOutGoingLineCount, float PositionX, float PositionY, float SizeX, float SizeY, bool IsPositionRelativeToScreen);
+		DragAndDropConnection(sf::Color ColourUnhovered, sf::Color ColourHovered, sf::Color ColourClicked, sf::Color ColourDeactivated, IGUIS::Origin Origin, char MaxOutGoingLineCount, float PositionX, float PositionY, float SizeX, float SizeY, bool IsPositionRelativeToScreen);
+		/// <param name="MaxOutGoingLineCount"> 0 - 255 </param>
 		DragAndDropConnection(IGUIS::Origin Origin, char MaxOutGoingLineCount, float PositionX, float PositionY, float SizeX, float SizeY, bool IsPositionRelativeToScreen);
 		
 		bool ContainPoint(sf::Vector2f Point);

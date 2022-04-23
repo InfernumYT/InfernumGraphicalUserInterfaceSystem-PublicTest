@@ -22,6 +22,7 @@ namespace IGUIS
 		sf::Vector2f GetPositionOnScreenInPxUsingPencentageAndOrigin(IGUIS::Origin Origin, sf::Vector2f Position);
 	public:
 		static const std::string VersionOfIGUIS;
+
 		/// <summary>
 		/// Used to set static Window* variable in IGUIS
 		/// </summary>
@@ -30,7 +31,6 @@ namespace IGUIS
 		/// <summary>
 		/// Used to get static Window* variable from IGUIS
 		/// </summary>
-		/// <returns></returns>
 		static sf::RenderWindow* GetWindow();
 
 		/// <summary>
